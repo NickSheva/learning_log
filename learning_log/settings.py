@@ -33,8 +33,13 @@ SECRET_KEY = 'django-insecure-2=y%i3%ekpbkz5(n(e+y!-ir)%(zodt+i#x_gvla6s=q3k9$-c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 # DEBUG = env.bool('DEBUG', default=False)
+# DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost']
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8080",
+]
 
 
 # Application definition
@@ -135,12 +140,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),
-                    )
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # add this
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
