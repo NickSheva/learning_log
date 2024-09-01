@@ -4,15 +4,18 @@ from django.http import Http404
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 
+
 # Create your views here.
 def index(request):
     """Домашняя страница приложения Learning Log"""
     return render(request, 'learning_logs/index.html')
 
+
 # refactored check logged in user to owner of topic
 def check_topic_owner(topic, request):
     if topic.owner != request.user:
-        raise Http404 
+        raise Http404
+
 
 @login_required
 def topics(request):
@@ -34,6 +37,7 @@ def topic(request, topic_id):
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
 
+
 @login_required
 def new_topic(request):
     """Определяет новую тему."""
@@ -51,6 +55,7 @@ def new_topic(request):
     # Вывести пустую или недействительную форму.
     context = {'form': form}
     return render(request, 'learning_logs/new_topic.html', context)
+
 
 @login_required
 def new_entry(request, topic_id):

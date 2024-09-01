@@ -18,6 +18,7 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 env = environ.Env()
 environ.Env.read_env()
 
@@ -28,12 +29,12 @@ environ.Env.read_env()
 SECRET_KEY = 'django-insecure-2=y%i3%ekpbkz5(n(e+y!-ir)%(zodt+i#x_gvla6s=q3k9$-c'
 
 # SECRET_KEY = config('SECRET_KEY')
-# SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = config('DEBUG', default=False, cast=bool)
-DEBUG = env.bool('DEBUG', default=False)
+DEBUG = config('DEBUG', default=False, cast=bool)
+# DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -71,7 +72,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         ## Path definition of templates folder .
 
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], # new
+        'DIRS': [], # new
         # 'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -134,8 +135,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),
+                    )
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # add this
 
 
 # Default primary key field type
@@ -144,6 +148,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Мои настройки
-LOGIN_URL = '/users/login/'
+LOGIN_URL = '{users:login}'
 
 
