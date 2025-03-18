@@ -16,28 +16,27 @@ import environ
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-# BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 env = environ.Env()
-environ.Env.read_env()
+environ.Env.read_env(".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-2=y%i3%ekpbkz5(n(e+y!-ir)%(zodt+i#x_gvla6s=q3k9$-c'
-
-# SECRET_KEY = config('SECRET_KEY')
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-2=y%i3%ekpbkz5(n(e+y!-ir)%(zodt+i#x_gvla6s=q3k9$-c')
-
-
+SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
-# DEBUG = env.bool('DEBUG', default=False)
-# DEBUG = True
+DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
@@ -47,12 +46,6 @@ CORS_ORIGIN_WHITELIST = [
 # Application definition
 
 INSTALLED_APPS = [
-    # my app
-    'learning_logs',
-    'users',
-    # сторонеее приложение
-    "bootstrap4",
-
     # Приложения django по умолчанию.
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,6 +53,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # my app
+    'learning_logs',
+    'users',
+    # сторонеее приложение
+    "bootstrap4",
+
 ]
 
 MIDDLEWARE = [
@@ -78,9 +77,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         ## Path definition of templates folder .
-
-        'DIRS': [], # new
-        # 'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,9 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Yekaterinburg'
 
 USE_I18N = True
 
