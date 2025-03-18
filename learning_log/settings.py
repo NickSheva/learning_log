@@ -32,7 +32,7 @@ DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
-
+CSRF_TRUSTED_ORIGINS = ["https://*.railway.app"]
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
 ]
